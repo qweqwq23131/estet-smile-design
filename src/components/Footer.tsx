@@ -1,4 +1,4 @@
-import { Phone, MapPin, Send } from 'lucide-react';
+import { Phone, MapPin, Send, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const navLinks = [
@@ -29,33 +29,41 @@ export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-primary text-primary-foreground">
-      <div className="container-custom px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+    <footer className="bg-primary text-primary-foreground relative overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute top-0 left-1/4 w-64 h-64 bg-primary-foreground/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-1/4 w-48 h-48 bg-primary-foreground/5 rounded-full blur-2xl" />
+      
+      <div className="container-custom px-4 sm:px-6 lg:px-8 py-16 lg:py-20 relative z-10">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
           {/* Logo and description */}
           <div className="lg:col-span-2">
-            <a href="#" className="inline-block mb-4">
-              <span className="font-serif text-3xl font-bold">ЭСТЕТ</span>
+            <a href="#" className="inline-block mb-6">
+              <span className="font-serif text-4xl font-bold">ЭСТЕТ</span>
             </a>
-            <p className="text-primary-foreground/70 max-w-md mb-6">
-              Стоматологическая клиника с индивидуальным подходом к каждому пациенту.
-              Современные методы лечения, комфорт и забота на каждом этапе.
+            <p className="text-primary-foreground/70 max-w-md mb-8 leading-relaxed text-lg">
+              Клиника эстетической стоматологии, где каждый пациент получает 
+              индивидуальный подход и заботу. Современные методы, комфортная атмосфера, 
+              результат, которым вы будете гордиться.
             </p>
-            <Button variant="secondary" size="lg" asChild>
-              <a href="#contacts">Записаться на приём</a>
+            <Button variant="secondary" size="lg" className="shadow-lg hover:shadow-xl" asChild>
+              <a href="#contacts" className="inline-flex items-center gap-2">
+                Записаться на приём
+              </a>
             </Button>
           </div>
 
           {/* Navigation */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Навигация</h4>
-            <ul className="space-y-3">
+            <h4 className="font-semibold text-lg mb-6">Навигация</h4>
+            <ul className="space-y-4">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                    className="text-primary-foreground/70 hover:text-primary-foreground transition-colors inline-flex items-center gap-2 group"
                   >
+                    <span className="w-0 group-hover:w-2 h-px bg-primary-foreground transition-all duration-300" />
                     {link.label}
                   </a>
                 </li>
@@ -65,32 +73,36 @@ export const Footer = () => {
 
           {/* Contacts */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Контакты</h4>
-            <ul className="space-y-3">
+            <h4 className="font-semibold text-lg mb-6">Контакты</h4>
+            <ul className="space-y-4">
               <li>
                 <a
                   href="tel:+79321210303"
-                  className="flex items-center gap-2 text-primary-foreground/70 hover:text-primary-foreground transition-colors"
+                  className="flex items-center gap-3 text-primary-foreground/70 hover:text-primary-foreground transition-colors"
                 >
-                  <Phone className="w-4 h-4" />
-                  +7 (932) 121-03-03
+                  <div className="w-10 h-10 rounded-xl bg-primary-foreground/10 flex items-center justify-center">
+                    <Phone className="w-4 h-4" />
+                  </div>
+                  <span>+7 (932) 121-03-03</span>
                 </a>
               </li>
-              <li className="flex items-start gap-2 text-primary-foreground/70">
-                <MapPin className="w-4 h-4 mt-1 flex-shrink-0" />
-                <span>г. Екатеринбург, микрорайон Светлый, 2</span>
+              <li className="flex items-start gap-3 text-primary-foreground/70">
+                <div className="w-10 h-10 rounded-xl bg-primary-foreground/10 flex items-center justify-center flex-shrink-0">
+                  <MapPin className="w-4 h-4" />
+                </div>
+                <span>г. Екатеринбург,<br />микрорайон Светлый, 2</span>
               </li>
             </ul>
 
             {/* Social links */}
-            <div className="flex gap-3 mt-6">
+            <div className="flex gap-3 mt-8">
               {socialLinks.map((social) => (
                 <a
                   key={social.name}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground/20 transition-colors"
+                  className="w-12 h-12 rounded-xl bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground/20 transition-all duration-300 hover:scale-110"
                   aria-label={social.name}
                 >
                   {social.icon}
@@ -101,10 +113,14 @@ export const Footer = () => {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 pt-8 border-t border-primary-foreground/10">
+        <div className="mt-16 pt-8 border-t border-primary-foreground/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-primary-foreground/50">
-            <p>© {currentYear} ООО «ЭСТЕТ». Все права защищены.</p>
-            <p>ИНН: XXXXXXXXXX | ОГРН: XXXXXXXXXXXXX</p>
+            <p className="flex items-center gap-2">
+              © {currentYear} ООО «ЭСТЕТ». Все права защищены.
+            </p>
+            <p className="flex items-center gap-2">
+              Сделано с <Heart className="w-4 h-4 text-primary-foreground/70 fill-current" /> для ваших улыбок
+            </p>
           </div>
         </div>
       </div>
