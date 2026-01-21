@@ -1,6 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Phone, MapPin, Clock, Send } from 'lucide-react';
+import { Phone, MapPin, Clock, Send, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const contactInfo = [
@@ -9,17 +9,20 @@ const contactInfo = [
     title: 'Телефон',
     value: '+7 (932) 121-03-03',
     href: 'tel:+79321210303',
+    sublabel: 'Звоните, мы ответим',
   },
   {
     icon: MapPin,
     title: 'Адрес',
     value: 'г. Екатеринбург, микрорайон Светлый, 2',
     href: 'https://yandex.ru/maps/?text=Екатеринбург,+микрорайон+Светлый,+2',
+    sublabel: 'Удобная парковка рядом',
   },
   {
     icon: Clock,
     title: 'Режим работы',
     value: 'Пн-Сб: 9:00 - 20:00',
+    sublabel: 'Воскресенье — выходной',
   },
 ];
 
@@ -42,29 +45,32 @@ const socialLinks = [
 
 export const ContactsSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const isInView = useInView(ref, { once: true, margin: '-50px' });
 
   return (
-    <section id="contacts" className="section-padding bg-muted/30" ref={ref}>
-      <div className="container-custom">
+    <section id="contacts" className="py-20 md:py-32 bg-muted/30 relative overflow-hidden" ref={ref}>
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl" />
+      
+      <div className="container-custom px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          transition={{ duration: 0.7 }}
+          className="text-center mb-16"
         >
-          <span className="inline-block px-4 py-2 bg-accent/50 text-accent-foreground rounded-full text-sm font-medium mb-4">
+          <span className="inline-block px-5 py-2.5 bg-accent/60 text-accent-foreground rounded-full text-sm font-medium mb-6 shadow-soft">
             Контакты
           </span>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Запишитесь на приём
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6">
+            Готовы к <span className="text-gradient">встрече</span>?
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Свяжитесь с нами удобным для вас способом — мы всегда рады помочь
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto leading-relaxed">
+            Свяжитесь с нами удобным способом — мы перезвоним в течение 15 минут
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
           {/* Contact info */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -72,31 +78,34 @@ export const ContactsSection = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="space-y-6"
           >
-            {/* Contact cards */}
+            {/* Contact cards with enhanced styling */}
             {contactInfo.map((item, index) => (
               <motion.div
                 key={item.title}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                className="bg-card p-6 rounded-2xl border border-border flex items-start gap-4"
+                className="group bg-card p-6 lg:p-8 rounded-2xl border border-border/50 flex items-start gap-5 hover:border-primary/20 hover:shadow-soft transition-all duration-300"
               >
-                <div className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center flex-shrink-0">
+                <div className="w-14 h-14 bg-accent rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:bg-primary/10 group-hover:scale-110">
                   <item.icon className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground mb-1">{item.title}</h3>
+                  <h3 className="font-semibold text-foreground mb-1 text-lg group-hover:text-primary transition-colors">{item.title}</h3>
                   {item.href ? (
                     <a
                       href={item.href}
                       target={item.href.startsWith('http') ? '_blank' : undefined}
                       rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      className="text-muted-foreground hover:text-primary transition-colors"
+                      className="text-foreground hover:text-primary transition-colors font-medium"
                     >
                       {item.value}
                     </a>
                   ) : (
-                    <span className="text-muted-foreground">{item.value}</span>
+                    <span className="text-foreground font-medium">{item.value}</span>
+                  )}
+                  {item.sublabel && (
+                    <p className="text-sm text-muted-foreground mt-1">{item.sublabel}</p>
                   )}
                 </div>
               </motion.div>
@@ -107,9 +116,12 @@ export const ContactsSection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.6 }}
-              className="bg-card p-6 rounded-2xl border border-border"
+              className="bg-card p-6 lg:p-8 rounded-2xl border border-border/50"
             >
-              <h3 className="font-semibold text-foreground mb-4">Мы в социальных сетях</h3>
+              <div className="flex items-center gap-3 mb-5">
+                <MessageCircle className="w-5 h-5 text-primary" />
+                <h3 className="font-semibold text-foreground text-lg">Мы в социальных сетях</h3>
+              </div>
               <div className="flex gap-4">
                 {socialLinks.map((social) => (
                   <a
@@ -117,7 +129,7 @@ export const ContactsSection = () => {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 bg-accent rounded-xl flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+                    className="w-14 h-14 bg-accent rounded-2xl flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-110"
                     aria-label={social.name}
                   >
                     {social.icon}
@@ -126,47 +138,71 @@ export const ContactsSection = () => {
               </div>
             </motion.div>
 
-            {/* CTA */}
+            {/* Premium CTA card */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.7 }}
-              className="bg-primary p-8 rounded-2xl text-center"
+              className="relative overflow-hidden bg-primary p-8 lg:p-10 rounded-3xl"
             >
-              <h3 className="font-serif text-2xl font-bold text-primary-foreground mb-3">
-                Готовы записаться?
-              </h3>
-              <p className="text-primary-foreground/80 mb-6">
-                Позвоните нам или оставьте заявку — мы перезвоним в течение 15 минут
-              </p>
-              <Button variant="secondary" size="lg" asChild>
-                <a href="tel:+79321210303" className="inline-flex items-center gap-2">
-                  <Phone className="w-5 h-5" />
-                  Позвонить сейчас
-                </a>
-              </Button>
+              {/* Decorative pattern */}
+              <div className="absolute top-0 right-0 w-40 h-40 bg-primary-foreground/5 rounded-full blur-2xl" />
+              <div className="absolute bottom-0 left-0 w-32 h-32 bg-primary-foreground/5 rounded-full blur-xl" />
+              
+              <div className="relative z-10">
+                <h3 className="font-serif text-2xl lg:text-3xl font-bold text-primary-foreground mb-4">
+                  Готовы записаться?
+                </h3>
+                <p className="text-primary-foreground/80 mb-8 leading-relaxed">
+                  Первичная консультация — бесплатно. Позвоните, и мы подберём удобное время для вашего визита
+                </p>
+                <Button variant="secondary" size="lg" className="w-full sm:w-auto shadow-lg hover:shadow-xl" asChild>
+                  <a href="tel:+79321210303" className="inline-flex items-center gap-3">
+                    <Phone className="w-5 h-5" />
+                    Позвонить сейчас
+                  </a>
+                </Button>
+              </div>
             </motion.div>
           </motion.div>
 
-          {/* Map */}
+          {/* Map with enhanced styling */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="h-[400px] lg:h-full min-h-[500px] rounded-2xl overflow-hidden shadow-card"
+            className="relative"
           >
-            <iframe
-              src="https://yandex.ru/map-widget/v1/?um=constructor%3A9d5c4b0f5d8e9a7c3b6f2e1a4d8c7b9e&amp;source=constructor&amp;ll=60.675515%2C56.790015&amp;z=15&amp;pt=60.675515,56.790015,pm2rdm"
-              width="100%"
-              height="100%"
-              frameBorder="0"
-              style={{ border: 0 }}
-              allowFullScreen
-              aria-hidden="false"
-              tabIndex={0}
-              title="Карта расположения клиники ЭСТЕТ"
-              className="grayscale-[20%]"
-            />
+            <div className="h-[450px] lg:h-full min-h-[550px] rounded-3xl overflow-hidden shadow-hover border border-border/30">
+              <iframe
+                src="https://yandex.ru/map-widget/v1/?um=constructor%3A9d5c4b0f5d8e9a7c3b6f2e1a4d8c7b9e&amp;source=constructor&amp;ll=60.675515%2C56.790015&amp;z=15&amp;pt=60.675515,56.790015,pm2rdm"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                style={{ border: 0 }}
+                allowFullScreen
+                aria-hidden="false"
+                tabIndex={0}
+                title="Карта расположения клиники ЭСТЕТ"
+                className="grayscale-[15%]"
+              />
+            </div>
+            
+            {/* Floating address card on map */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              className="absolute bottom-6 left-6 right-6 lg:left-auto lg:right-6 lg:w-72 bg-background/95 backdrop-blur-sm p-5 rounded-2xl shadow-hover border border-border/50"
+            >
+              <div className="flex items-center gap-3 mb-2">
+                <MapPin className="w-5 h-5 text-primary" />
+                <span className="font-semibold text-foreground">Мы здесь</span>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                микрорайон Светлый, 2
+              </p>
+            </motion.div>
           </motion.div>
         </div>
       </div>
